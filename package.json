@@ -1,11 +1,12 @@
 {
   "dependencies": {
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.453.0"
   },
-
   "scripts": {
-  "start": "concurrently \"npm run server\" \"npm run client\"",
-  "server": "cd server && node server.js",
-  "client": "cd client && npm start"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && node server.js",
+    "client": "cd client && npm start"
   }
 }

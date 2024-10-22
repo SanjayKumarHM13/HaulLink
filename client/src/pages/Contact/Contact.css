@@ -1,0 +1,67 @@
+.contact {
+    padding: 4rem 0;
+  }
+  
+  .contact h1 {
+    margin-bottom: 2rem;
+  }
+  
+  .contact-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .contact-info,
+  .contact-form {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .contact-info {
+    margin-right: 2rem;
+  }
+  
+  .contact-info ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .contact-info li {
+    margin-bottom: 1rem;
+  }
+  
+  .contact-info i {
+    margin-right: 0.5rem;
+    color: #007bff;
+  }
+  
+  .contact-form .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .contact-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .contact-form textarea {
+    height: 150px;
+  }
+  
+  .contact-form .btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }

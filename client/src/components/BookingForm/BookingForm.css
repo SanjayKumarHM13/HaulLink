@@ -1,0 +1,92 @@
+.booking-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.booking-form h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.booking-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.booking-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.booking-form input,
+.booking-form select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.booking-form input:focus,
+.booking-form select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.booking-form .btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.booking-form .btn:hover {
+  background-color: #2980b9;
+}
+
+.booking-form .error {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.booking-form .phone-input {
+  display: flex;
+}
+
+.booking-form .phone-input .country-code {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background-color: #f3f4f6;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 0.875rem;
+  color: #4a4a4a;
+}
+
+.booking-form .phone-input input[type="tel"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .booking-form {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}

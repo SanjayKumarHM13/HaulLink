@@ -16,15 +16,7 @@ const BookingSchema = new mongoose.Schema({
   service: {
     type: String,
     required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 });
 
-module.exports = mongoose.model('Booking', BookingSchema);
+module.exports = mongoose.model('Bookings', BookingSchema, 'truck_booking');
