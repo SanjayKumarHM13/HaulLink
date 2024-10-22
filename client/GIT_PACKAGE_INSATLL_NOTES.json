@@ -1,0 +1,11 @@
+[
+    {
+        "Successfully connected to the database": {
+            "newPackage": {
+                "to": "/client",
+                "package": "axios",
+                "command": "npm install axios"
+            }
+        }
+    }
+]

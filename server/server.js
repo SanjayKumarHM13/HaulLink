@@ -1,73 +1,57 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
+const dotenv = require('dotenv');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/truckport', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect('mongodb://localhost:27017/', {
+  dbName: 'HaulLink'
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error));
+
+app.get('/', (req, res) => res.send("GET is working"));
+
+const TruckBookingSchema = new mongoose.Schema({
+  name: {type: String, required: true},
+  email: {type: String, required: true},
+  phone: {type: String, required: true},
+  service: {type: String, required: true},
+  date: {type: String, required: true}
 });
 
-const UserSchema = new mongoose.Schema({
-  userId: String,
-  password: String,
-  name: String,
-  email: String,
-  phone: String,
-});
+const TruckBooking = mongoose.model('TruckBooking', TruckBookingSchema, 'truck_booking');
 
-const User = mongoose.model('User', UserSchema);
+app.get('/bookings', async (req, res) => {
+  try {
+    const booking = await TruckBooking.find();
+    res.json(booking);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+}
+);
 
-app.post('/api/bookings', async (req, res) => {
-  const userId = uuidv4();
-  res.json({ userId });
-});
-
-app.post('/api/users', async (req, res) => {
-  const { userId, password, name, email, phone } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  
-  const newUser = new User({
-    userId,
-    password: hashedPassword,
-    name,
-    email,
-    phone,
-  });
+app.post('/bookings', async (req, res) => {
 
   try {
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
+    console.log(await req.body);
+    const {name, email, phone, service, date} = await req.body;
+
+    const newBooking = new TruckBooking({name, email, phone, service, date});
+
+    await newBooking.save();
+
+    res.status(201).json({ message: 'Booking created successfully', data: newBooking });
+
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user' });
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ message: 'Error fetching user details' });
   }
 });
 
-app.post('/api/login', async (req, res) => {
-  const { userId, password } = req.body;
-  const user = await User.findOne({ userId });
-
-  if (user && await bcrypt.compare(password, user.password)) {
-    res.json({ userId: user.userId });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
-  }
-});
-
-app.get('/api/users/:userId', async (req, res) => {
-  const { userId } = req.params;
-  const user = await User.findOne({ userId });
-
-  if (user) {
-    const { password, ...userWithoutPassword } = user.toObject();
-    res.json(userWithoutPassword);
-  } else {
-    res.status(404).json({ message: 'User not found' });
-  }
-});
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || process.env.PORT_ALT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
