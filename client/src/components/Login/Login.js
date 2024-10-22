@@ -4,19 +4,20 @@ import './Login.css';
 
 function Login() {
   const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/truck_booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password }),
+        body: JSON.stringify({ userId, phone }),
       });
+
       if (response.ok) {
         const data = await response.json();
         navigate(`/profile/${data.userId}`);
@@ -29,10 +30,16 @@ function Login() {
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10); // Remove non-digit characters, limit to 10
+    setPhone(value);
+  };
+
   return (
     <div className="login-form">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
+        {/* User ID Field */}
         <div className="form-group">
           <label htmlFor="userId">User ID:</label>
           <input
@@ -43,16 +50,21 @@ function Login() {
             required
           />
         </div>
+
+        {/* Phone Number Field */}
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="phone">Phone Number:</label>
           <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="tel"
+            id="phone"
+            value={phone}
+            onChange={handlePhoneChange}
             required
+            // placeholder="Enter 10-digit phone number"
+            maxLength="10"
           />
         </div>
+
         <button type="submit" className="btn">Login</button>
       </form>
     </div>
