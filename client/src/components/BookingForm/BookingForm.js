@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+// import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './BookingForm.css';
 
 function BookingForm() {
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,7 +44,7 @@ function BookingForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    // setLoading(true);
     const formErrors = {};
     if (!validatePhone(formData.phone)) formErrors.phone = 'Please enter a valid 10-digit phone number';
     if (!validateEmail(formData.email)) formErrors.email = 'Please enter a valid email address';
@@ -56,7 +56,7 @@ function BookingForm() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/bookings', {
+      const response = await axios.post('http://localhost:5001/truckbooking', {
         ...formData,
           phone: `+91${formData.phone}`,
         });
@@ -78,8 +78,6 @@ function BookingForm() {
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred. Please try again later.');
-    } finally {
-      setLoading(false);
     }
   };
 
