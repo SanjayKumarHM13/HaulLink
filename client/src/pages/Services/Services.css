@@ -1,0 +1,76 @@
+.services {
+  padding: 4rem 0;
+  background: #f8f9fa;
+}
+
+.services h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+/* Set font style for the entire service card */
+.service-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+  min-height: 450px;
+  font-family: 'Arial', sans-serif; /* Set consistent font for the panel */
+  color: #333; /* Uniform text color */
+}
+
+.service-card i {
+  font-size: 3rem;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.service-card h3 {
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 1rem;
+  font-size: 1.5rem; /* Uniform font size */
+  font-weight: bold; /* Ensure heading has more weight */
+}
+
+.service-card h3::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: #007bff;
+  margin: 1rem auto 0;
+}
+
+.service-details {
+  opacity: 1;
+  max-height: none;
+}
+
+.service-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem; /* Adjusted for uniform font size */
+  color: #555;
+}
+
+.service-details ul {
+  list-style-type: disc;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  text-align: left;
+}
+
+.service-details ul li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem; /* Consistent font size */
+  color: #555;
+}
