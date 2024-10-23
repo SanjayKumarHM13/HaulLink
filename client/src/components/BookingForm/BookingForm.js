@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import axios from 'axios';
+// import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './BookingForm.css';
 
 function BookingForm() {
+  // const [isLoading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,7 +13,6 @@ function BookingForm() {
     date: '',
   });
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +44,7 @@ function BookingForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // setLoading(true);
     const formErrors = {};
     if (!validatePhone(formData.phone)) formErrors.phone = 'Please enter a valid 10-digit phone number';
     if (!validateEmail(formData.email)) formErrors.email = 'Please enter a valid email address';
@@ -54,22 +56,21 @@ function BookingForm() {
     }
 
     try {
-      const response = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          phone: `+91${formData.phone}`, // Add country code
-        }),
-      });
+      const response = await axios.post('http://localhost:5000/truckbooking', {
+        ...formData,
+          phone: `+91${formData.phone}`,
+        });
 
-      if (response.ok) {
-        const data = await response.json();
+      console.log(response);
+
+      if (response.status === 201) {
         alert('Booking submitted successfully!');
-        navigate('/create-profile', { state: { userId: data.userId } }); // Navigate to create profile
+        console.log(response.data);
+
+        // navigate('/create-profile', { state: { userId: data.userId } });
+
         setFormData({ name: '', email: '', phone: '', service: '', date: '' });
+        
         setErrors({});
       } else {
         alert('Error submitting booking. Please try again.');
@@ -77,8 +78,11 @@ function BookingForm() {
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred. Please try again later.');
+    } finally {
+      // setLoading(false);
     }
   };
+
 
   return (
     <section id="booking" className="booking-form">

@@ -1,17 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://192.168.19.81:27017/', {
-            dbName: 'TTMS',
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+        const conn = await mongoose.connect(process.env.MONGO_URL, {
+            dbName: process.env.DB_NAME,
         });
-        console.log('MongoDB connected');
-    } catch (err) {
-        console.error('MongoDB connection error:', err.message);
+        console.log(`MongoDB Connected to ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
         process.exit(1);
     }
-};
+}
 
 module.exports = connectDB;

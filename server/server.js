@@ -1,73 +1,35 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
+const cors = require('cors');
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/truckport', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+app.get('/', (req, res) => res.send("GET is working"));
 
-const UserSchema = new mongoose.Schema({
-  userId: String,
-  password: String,
-  name: String,
-  email: String,
-  phone: String,
-});
+const connectDB = require('./db');
+connectDB();
 
-const User = mongoose.model('User', UserSchema);
+const truckBookingRoutes = require('./routes/truckBooking');
 
-app.post('/api/bookings', async (req, res) => {
-  const userId = uuidv4();
-  res.json({ userId });
-});
+app.use('/truckbooking', truckBookingRoutes);
 
-app.post('/api/users', async (req, res) => {
-  const { userId, password, name, email, phone } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  
-  const newUser = new User({
-    userId,
-    password: hashedPassword,
-    name,
-    email,
-    phone,
-  });
+const PORT = process.env.PORT || 8000;
 
-  try {
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating user' });
-  }
-});
+app.listen(PORT, () => console.log(`Server is running on: http://localhost:${PORT}`));
 
-app.post('/api/login', async (req, res) => {
-  const { userId, password } = req.body;
-  const user = await User.findOne({ userId });
+// (async () => {
+// const getPort = (await import('get-port')).default  ;
+//   PORT = await getPort({
+//     port: [process.env.PORT || process.env.PORT_ALT || 5000],
+//   });
 
-  if (user && await bcrypt.compare(password, user.password)) {
-    res.json({ userId: user.userId });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
-  }
-});
+//   console.log(PORT);
 
-app.get('/api/users/:userId', async (req, res) => {
-  const { userId } = req.params;
-  const user = await User.findOne({ userId });
+//   app.get('/', (req, res) => res.send("GET is working"));
 
-  if (user) {
-    const { password, ...userWithoutPassword } = user.toObject();
-    res.json(userWithoutPassword);
-  } else {
-    res.status(404).json({ message: 'User not found' });
-  }
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//   app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+// })();

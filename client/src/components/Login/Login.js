@@ -17,10 +17,10 @@ function Login() {
         },
         body: JSON.stringify({ userId, phone }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-        navigate(`/profile/${data.userId}`);
+        navigate(`/profile/${data.userId}`); // Navigate to user's profile on success
       } else {
         alert('Invalid credentials. Please try again.');
       }
@@ -29,6 +29,7 @@ function Login() {
       alert('An error occurred. Please try again later.');
     }
   };
+  
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 10); // Remove non-digit characters, limit to 10
